@@ -95,8 +95,9 @@ class Points3D {
         friend Points3D operator+(const Points3D &c1, const Points3D &c2) {
             // Code missing.
             Points3D ret(c1.size() > c2.size() ? c1 : c2);
+            Points3D add(c1.size() < c2.size() ? c1 : c2);
             
-            for(size_t i = 0; i < ret.size(); ++i){
+            for(size_t i = 0; i < add.size(); ++i){
                 
             }
             
@@ -116,8 +117,10 @@ class Points3D {
         // Overloading the >> operator.
         // Read a chain from an input stream (e.g., standard input).
         friend std::istream &operator>>(std::istream &in, Points3D &some_points) {
-            auto x,y,z;
-            in >> x >> y >> z;
+            for(auto iter = some_points._sequence->begin(); some_points._sequence->end() != some_points._sequence->end(); ++iter){
+                in >> *iter;
+            }
+            
             return in;
         }
 
