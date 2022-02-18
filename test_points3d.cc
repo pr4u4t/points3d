@@ -13,16 +13,17 @@ using namespace teaching_project;
 // Place stand-alone function in unnamed namespace.
 namespace {
 void TestPart1() {
-    Points3D<int> a, b;  // Two empty Points3D are created.
-    cout << a.size() << " " << b.size() << endl; // yields 0 0.
+    Points3D<int> a, b;                                     // Two empty Points3D are created.
+    cout << a.size() << " " << b.size() << endl;            // yields 0 0.
+    
     const array<int, 3> a_point2{{7, 10, 11}};
-    Points3D<int> d{a_point2};  // A Points3D containing (7, 10, 11) should be created.
-    cout << d;  // Should just print (7, 10, 11).
+    Points3D<int> d{a_point2};                              // A Points3D containing (7, 10, 11) should be created.
+    cout << d;                                              // Should just print (7, 10, 11).
     cout << "Enter a sequence of points (integer)" << endl;
-    cin >> a; // User enters a set of points in the form:
-              // 3 7 4 -5 3 2 100 1 10 -23
-              // The first 3 specifies number of points. Points are the triples
-              // (7, 4, -5), (3, 2, 100), and (1, 10, -23).
+    cin >> a;                                               // User enters a set of points in the form:
+                                                            // 3 7 4 -5 3 2 100 1 10 -23
+                                                            // The first 3 specifies number of points. Points are the triples
+                                                            // (7, 4, -5), (3, 2, 100), and (1, 10, -23).
     cout << "Output1: " << endl;
     cout << a;  // Output should be what user entered.
     cout << "Enter a sequence of points (integer)" << endl;

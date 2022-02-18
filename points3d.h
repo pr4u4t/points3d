@@ -16,80 +16,116 @@ namespace teaching_project {
 // and its sample usage.
 template<typename Object>
 class Points3D {
- public:
-  // Default "big five" -- you have to alter them for your assignment.
-  // That means that you will remove the "= default" statement.
-  //  and you will provide an implementation.
+    public:
+        // Default "big five" -- you have to alter them for your assignment.
+        // That means that you will remove the "= default" statement.
+        //  and you will provide an implementation.
 
-  // Zero-parameter constructor.
-  // Set size to 0.
-  Points3D() = default;
+        // Zero-parameter constructor.
+        // Set size to 0.
+        Points3D(){
+            this->_size = 0;
+            this->_sequence = 0;
+        };
 
-  // Copy-constructor.
-  Points3D(const Points3D &rhs) = default;
+        // Copy-constructor.
+        Points3D(const Points3D &rhs){
+            this->_size = rhs.size();
+        };
 
-  // Copy-assignment. If you have already written
-  // the copy-constructor and the move-constructor
-  // you can just use:
-  // {
-  // Points3D copy = rhs;
-  // std::swap(*this, copy);
-  // return *this;
-  // }
-  Points3D& operator=(const Points3D &rhs) = default;
+        // Copy-assignment.
+        Points3D& operator=(const Points3D &rhs){
+            Points3D copy = rhs;
+            std::swap(*this, copy);
+            return *this;
+        };
 
-  // Move-constructor.
-  Points3D(Points3D &&rhs) = default;
+        // Move-constructor.
+        Points3D(Points3D &&rhs){
+            this->_size = rhs._size;
+            rhs._size = 0;
+            this->_sequence = rhs._sequence;
+            rhs._sequence = 0;
+        };
 
-  // Move-assignment.
-  // Just use std::swap() for all variables.
-  Points3D& operator=(Points3D &&rhs) = default;
+        // Move-assignment.
+        // Just use std::swap() for all variables.
+        Points3D& operator=(Points3D &&rhs) = default;
 
-  ~Points3D() = default;
+        ~Points3D(){
+            if(!this->_size){
+                return;
+            }
+            
+            if(this->_size == 1){
+                
+            }else{
+                delete [] this->_sequence;
+            }
+        }
 
-  // End of big-five.
+        // End of big-five.
 
-  // One parameter constructor.
-  Points3D(const std::array<Object, 3>& item) {
-    // Provide code.
-  }
+        // One parameter constructor.
+        Points3D(const std::array<Object, 3>& item) {
+            this->_sequence = new std::array<Object, 3>(item);
+            this->_size = 1;
+        }
 
-  size_t size() const {
-    // Code missing.
-  }
+        size_t size() const {
+            return this->_size;
+        }
 
-  // @location: an index to a location in the sequence.
-  // @returns the point at @location.
-  // const version.
-  // abort() if out-of-range.
-  const std::array<Object, 3>& operator[](size_t location) const {
-    // Code missing.
-  }
+        // @location: an index to a location in the sequence.
+        // @returns the point at @location.
+        // const version.
+        // abort() if out-of-range.
+        const std::array<Object, 3>& operator[](size_t location) const {
+            if(location >= this->_size){
+                std::abort();
+            }
+            
+            return this->_sequence[location];
+        }
 
-  //  @c1: A sequence.
-  //  @c2: A second sequence.
-  //  @return their sum. If the sequences are not of the same size, append the
-  //    result with the remaining part of the larger sequence.
-  friend Points3D operator+(const Points3D &c1, const Points3D &c2) {
-   // Code missing.
-  }
+        //  @c1: A sequence.
+        //  @c2: A second sequence.
+        //  @return their sum. If the sequences are not of the same size, append the
+        //    result with the remaining part of the larger sequence.
+        friend Points3D operator+(const Points3D &c1, const Points3D &c2) {
+            // Code missing.
+            Points3D ret(c1.size() > c2.size() ? c1 : c2);
+            
+            for(size_t i = 0; i < ret.size(); ++i){
+                
+            }
+            
+            return ret;
+        }
 
-  // Overloading the << operator.
-  friend std::ostream &operator<<(std::ostream &out, const Points3D &some_points) {
-    // Code missing.
-  }
+        // Overloading the << operator.
+        friend std::ostream &operator<<(std::ostream &out, const Points3D &some_points) {
+            // Code missing.
+            for(size_t i = 0; i < some_points.size(); ++i){
+                out << '{' << some_points[i][0] << ',' << some_points[i][1] << ',' << some_points[i][2] << '}';
+            }
+            
+            return out;
+        }
 
-  // Overloading the >> operator.
-  // Read a chain from an input stream (e.g., standard input).
-  friend std::istream &operator>>(std::istream &in, Points3D &some_points) {
-    // Code missing.
-  }
+        // Overloading the >> operator.
+        // Read a chain from an input stream (e.g., standard input).
+        friend std::istream &operator>>(std::istream &in, Points3D &some_points) {
+            auto x,y,z;
+            in >> x >> y >> z;
+            return in;
+        }
 
- private:
-  // Sequence of points.
-  std::array<Object, 3> *sequence_;
-  // Size of sequence.
-  size_t size_;
+    private:
+        // Sequence of points.
+        std::array<Object, 3> *_sequence;
+        // Size of sequence.
+        size_t _size;
 };
 
 }  // namespace teaching_project
