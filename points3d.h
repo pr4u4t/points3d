@@ -31,6 +31,11 @@ class Points3D {
         // Copy-constructor.
         Points3D(const Points3D &rhs){
             this->_size = rhs.size();
+            this->_sequence = new std::array<Object, 3>[this->_size];
+            
+            for(size_t i = 0; i < this->_size; ++i){
+                this->_sequence[i] = rhs._sequence[i];  
+            }
         };
 
         // Copy-assignment.
@@ -50,19 +55,13 @@ class Points3D {
 
         // Move-assignment.
         // Just use std::swap() for all variables.
-        Points3D& operator=(Points3D &&rhs) = default;
+        Points3D& operator=(Points3D &&rhs){
+            this->_size = rhs._size;
+            this->_sequence = rhs._sequence;
+            return *this;
+        };
 
-        ~Points3D(){
-            if(!this->_size){
-                return;
-            }
-            
-            if(this->_size == 1){
-                
-            }else{
-                delete [] this->_sequence;
-            }
-        }
+        ~Points3D() = default;
 
         // End of big-five.
 
@@ -98,7 +97,9 @@ class Points3D {
             Points3D add(c1.size() < c2.size() ? c1 : c2);
             
             for(size_t i = 0; i < add.size(); ++i){
-                
+                for(size_t j = 0; j < 3; ++j){
+                    ret._sequence[i][j] += add._sequence[i][j];
+                }
             }
             
             return ret;
@@ -106,9 +107,8 @@ class Points3D {
 
         // Overloading the << operator.
         friend std::ostream &operator<<(std::ostream &out, const Points3D &some_points) {
-            // Code missing.
             for(size_t i = 0; i < some_points.size(); ++i){
-                out << '{' << some_points[i][0] << ',' << some_points[i][1] << ',' << some_points[i][2] << '}';
+                out << '(' << some_points[i][0] << ',' << some_points[i][1] << ',' << some_points[i][2] << ')';
             }
             
             return out;
@@ -117,9 +117,22 @@ class Points3D {
         // Overloading the >> operator.
         // Read a chain from an input stream (e.g., standard input).
         friend std::istream &operator>>(std::istream &in, Points3D &some_points) {
-            for(auto iter = some_points._sequence->begin(); some_points._sequence->end() != some_points._sequence->end(); ++iter){
-                in >> *iter;
+            size_t points;
+            in >> points;
+            
+            if(some_points._sequence){
+                delete some_points._sequence;
+                some_points._sequence = 0;
             }
+            some_points._sequence = new std::array<Object, 3>[points];
+            
+            for(size_t i = 0; i < points; ++i){
+                for(int c = 0; c < 3; ++c){
+                    in >> some_points._sequence[i][c];
+                }    
+            }
+            
+            some_points._size = points;
             
             return in;
         }
