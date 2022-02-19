@@ -107,9 +107,16 @@ class Points3D {
 
         // Overloading the << operator.
         friend std::ostream &operator<<(std::ostream &out, const Points3D &some_points) {
+            if(!some_points._size){
+                out << "( ) ";
+                return out;
+            }
+            
             for(size_t i = 0; i < some_points.size(); ++i){
                 out << "(" << some_points[i][0] << ", " << some_points[i][1] << ", " << some_points[i][2] << ") ";
             }
+            
+            out << std::endl;
             
             return out;
         }
