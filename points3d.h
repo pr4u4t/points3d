@@ -108,7 +108,7 @@ class Points3D {
         // Overloading the << operator.
         friend std::ostream &operator<<(std::ostream &out, const Points3D &some_points) {
             if(!some_points._size){
-                out << "( ) ";
+                out << "( ) " << std::endl;
                 return out;
             }
             
