@@ -144,9 +144,13 @@ class Points3D {
     
     protected:
         void make_unique(){
+            /* if count > 1 then we are NOT only owner of this memory fragment deep copy must be made*/
             if(this->_sequence.use_count() > 1){
+                //store pointer to old memory fragment
                 std::array<Object, 3>* old = this->_sequence.get();
+                //reserve new momory fragment of the same size
                 this->_sequence = std::shared_ptr<std::array<Object, 3>>(new std::array<Object, 3>[this->_size]);
+                //copy old memory to new memory
                 std::memcpy(this->_sequence.get(),old,this->_size*sizeof(std::array<Object, 3>));
             }
         }
